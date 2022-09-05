@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 public class User implements Serializable {		
@@ -26,6 +28,7 @@ public class User implements Serializable {
 	private String phone;
 	private String password;
 	
+	@JsonIgnore //previne q fique repetindo. Quando chama um cliente, chama todos os seus pedidos e todos os pedidos chamam seus clientes e vai infinitamente.
 	@OneToMany(mappedBy="client")
 	private List<Order> orders = new ArrayList<>();
 	
