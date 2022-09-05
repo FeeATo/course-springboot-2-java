@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.example.course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -26,6 +27,8 @@ public class Order implements Serializable{
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
 	private Instant moment;
 	
+	private Integer orderStatus;
+	
 	//chave estrangeira no DB . Cliente tem muitos pedidos. Pedido tem um cliente.
 	@ManyToOne
 	@JoinColumn(name="client_id") //dando nome pra chave estrangeira
@@ -33,9 +36,10 @@ public class Order implements Serializable{
 	
 	public Order() {}
 
-	public Order(Long id, Instant moment, User client) {		
+	public Order(Long id, Instant moment, OrderStatus orderStatus ,User client) {		
 		this.id = id;
 		this.moment = moment;
+		setOrderStatus(orderStatus);
 		this.client = client;
 	}
 
@@ -63,6 +67,15 @@ public class Order implements Serializable{
 		this.client = client;
 	}
 
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if(orderStatus!=null)
+			this.orderStatus = orderStatus.getCode();
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -79,6 +92,8 @@ public class Order implements Serializable{
 		Order other = (Order) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	
 	
 	
 	
