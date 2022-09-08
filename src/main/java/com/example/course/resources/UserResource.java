@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,11 +38,17 @@ public class UserResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> insert(@RequestBody User obj){
+	public ResponseEntity<User> insert(@RequestBody User obj){ //requestBody pq é uma variável que vai ser passada no corpo da requisição
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
 				path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);//.created retorna o código 201 do HTTP e precisa de um URI como parâmetro 
+	}
+	
+	@DeleteMapping(value="/{id}") //void pq n retorna nd quando deleta
+	public ResponseEntity<Void> delete(@PathVariable Long id){ //path variable pq é uma variável que vai ser passada junto da url
+		service.delete(id);
+		return ResponseEntity.noContent().build(); //noContent retorna uma resposta vazia, com o código 204
 	}
 	
 }
