@@ -10,26 +10,28 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.example.course.entities.Order;
-import com.example.course.entities.Order;
-import com.example.course.repositories.OrderRepository;
+import com.example.course.entities.Payment;
+import com.example.course.entities.Payment;
+import com.example.course.repositories.PaymentRepository;
 import com.example.course.services.exceptions.DatabaseException;
 import com.example.course.services.exceptions.ResourceNotFoundException;
 
 //precisa registrar essa classe no Spring pra q o autowired dela funcione
 //@Component
 @Service
-public class OrderService {
+public class PaymentService {
 	@Autowired
-	private OrderRepository repository;
+	private PaymentRepository repository;
 
-	public List<Order> findAll() {
+	public List<Payment> findAll() {
 		return repository.findAll();
 	}
 
-	public Order findById(Long id) {
-		Optional<Order> obj = repository.findById(id);
+	public Payment findById(Long id) {
+		Optional<Payment> obj = repository.findById(id);
 		return obj.get();
-	}	
+	}
+	
+	
 	
 }
